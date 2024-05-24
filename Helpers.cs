@@ -11,17 +11,17 @@ namespace NaughtyDogLocalizationTool
         {
             string str = "";
             char ch;
-            while ((int)(ch = stream.ReadChar()) != 0)
-                str = str + ch;
+            while ((ch = stream.ReadChar()) != 0)
+                str += ch;
             return StringClear(str);
         }
         public static byte[] WriteNullTerminatedString(string str)
         {
             return Encoding.UTF8.GetBytes(StringDeclear(str) + "\0");
         }
-        public static byte[] ToByteArray(this System.IO.BinaryWriter a)
+        public static byte[] ToByteArray(this BinaryWriter a)
         {
-            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
                 a.BaseStream.Position = 0;
                 a.BaseStream.CopyTo(ms);
@@ -41,6 +41,7 @@ namespace NaughtyDogLocalizationTool
             str = str.Replace("<cf>", "\r\n");
             str = str.Replace("<cr>", "\r");
             str = str.Replace("<lf>", "\n");
+            str = str.Replace("<ll>", "\\");
             if (str == "[EmptyString]") str = "";
             return str;
         }
@@ -74,7 +75,7 @@ namespace NaughtyDogLocalizationTool
         }
         public static void WriteBE(this BinaryWriter bw, int value)
         {
-             bw.Write(BitConverter.GetBytes(value).Reverse().ToArray());
+            bw.Write(BitConverter.GetBytes(value).Reverse().ToArray());
         }
         public static void WriteBE(this BinaryWriter bw, uint value)
         {
