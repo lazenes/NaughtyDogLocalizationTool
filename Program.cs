@@ -34,7 +34,7 @@ namespace NaughtyDogLocalizationTool
                 if (LocalizationExtensions.Contains(Path.GetExtension(args[0])))
                 {
                     int ver = CheckVer(args[0]);
-                    Console.WriteLine("Selected Ver: " + ver);
+                    Console.WriteLine("Detected Ver: " + ver);
                     switch (ver)
                     {
                         case 0:
@@ -78,23 +78,14 @@ namespace NaughtyDogLocalizationTool
             BinaryReader Read = new BinaryReader(new MemoryStream(File.ReadAllBytes(path)));
             byte littleOrBig = Read.ReadByte();
             if (littleOrBig == 0)
-            {
-                //big
                 return 0;
-            }
             else
             {
-                //lit
                 Read.BaseStream.Position = 16;
                 if (Read.ReadInt32() == 0)
-                {
                     return 2;
-                }
                 else
-                {
                     return 1;
-                }
-
             }
 
         }
@@ -186,7 +177,7 @@ namespace NaughtyDogLocalizationTool
             ids.RemoveAt(0);
             int CountOfStrings = strings.Count;
             Write.Write(CountOfStrings);
-            long TempOffset = 0;
+            long TempOffset = UnknownString.LongLength;
             for (int i = 0; i < CountOfStrings; i++)
             {
                 stringsInbyte.Add(Helpers.WriteNullTerminatedString(strings[i]));
